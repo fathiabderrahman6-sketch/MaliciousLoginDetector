@@ -1,28 +1,40 @@
 #include <stdio.h>
 #include "array_store.h"
 #include "linkedlist_store.h"
+#include "stack_tracker.h"
 
-int main() {
-    Login l1 = {"2025-01-01 10:00", "admin", "FAIL", "192.168.1.1"};
-    Login l2 = {"2025-01-01 10:01", "admin", "FAIL", "192.168.1.1"};
-    Login l3 = {"2025-01-01 10:02", "root", "SUCCESS", "10.0.0.5"};
+int main(void) {
 
     printf("=== ARRAY STORAGE ===\n");
-    LoginArray arr;
-    initArray(&arr, 2);
-    insertArray(&arr, l1);
-    insertArray(&arr, l2);
-    insertArray(&arr, l3);
+    ArrayStore arr;
+    initArray(&arr);
+    addToArray(&arr, 10);
+    addToArray(&arr, 20);
     printArray(&arr);
-    freeArray(&arr);
 
     printf("\n=== LINKED LIST STORAGE ===\n");
-    Node *head = NULL;
-    head = insertNode(head, l1);
-    head = insertNode(head, l2);
-    head = insertNode(head, l3);
-    printList(head);
-    freeList(head);
+    LinkedList list;
+    initList(&list);
+    insertNode(&list, 5);
+    insertNode(&list, 15);
+    printList(&list);
+
+    printf("\n=== STACK BRUTE FORCE DETECTION ===\n");
+    Stack s;
+    initStack(&s);
+
+    push(&s, 0);
+    push(&s, 0);
+    push(&s, 0);
+
+    int fails = countFailures(&s);
+
+    printf("Consecutive failures: %d\n", fails);
+
+    if (fails >= 3)
+        printf("⚠️ USER MARKED AS SUSPICIOUS\n");
+    else
+        printf("User is normal\n");
 
     return 0;
 }
